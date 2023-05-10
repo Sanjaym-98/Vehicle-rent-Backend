@@ -1,0 +1,11 @@
+{
+  "name": "vehicle_rent_backend",
+  "version": "1.0.0",
+  "description": "vehicle rent backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sanjay M",
+  "license": "ISC"
+}
