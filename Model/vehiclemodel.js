@@ -37,7 +37,7 @@ const vehicleSchema = new mongoose.Schema({
   }
 });
 
-const Vehicles = mongoose.model('Vehicles', vehicleSchema);
+const Vehicles = mongoose.model('Vehicles', vehicleSchema); // taking the collection name as Vehicles
 
 Vehicles.countDocuments().then(count => {
   if (count === 0) {
@@ -49,7 +49,7 @@ Vehicles.countDocuments().then(count => {
       { name: { first: 'Steve', last: 'Jones' }, vehicleType: 'cruiser', wheels: 2, model: 'Harley Davidson', booking: { startDate: new Date('2023-05-16'), endDate: new Date('2023-05-19') } }
     ];
 
-    Vehicles.insertMany(initialVehicles)
+    Vehicles.insertMany(initialVehicles)  //adding the data initially(seeding)
       .then(() => console.log('Initial vehicles seeded successfully'))
       .catch(err => console.error('Error seeding initial vehicles:', err));
   }

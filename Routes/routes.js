@@ -6,23 +6,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 router.get("/vehicle/:wheels", async (req, res) => {
     try {
-        const data = await Vehicles.find({ wheels: req.params.wheels }, { vehicleType: 1 });
-        res.status(200).json({
-            status: "success",
-            data
-        })
-    } catch (e) {
-        res.status(404).json({
-            status: "Failed",
-            message: e.message
-        })
-    }
-})
-
-
-router.delete("/vehicle", async (req, res) => {
-    try {
-        const data = await Vehicles.deleteMany();
+        const data = await Vehicles.find({ wheels: req.params.wheels }, { vehicleType: 1 });  //giving wheels as params, this will display only vehicleYpe in it.
         res.status(200).json({
             status: "success",
             data
@@ -38,7 +22,7 @@ router.delete("/vehicle", async (req, res) => {
 
 router.get("/vehicle/:wheels/:type", async (req, res) => {
     try {
-        const data = await Vehicles.find({ wheels: req.params.wheels, vehicleType: req.params.type }, { model: 1 });
+        const data = await Vehicles.find({ wheels: req.params.wheels, vehicleType: req.params.type }, { model: 1 }); //taking wheels and vehicleType from the params, this will display only models
         res.status(200).json({
             status: "success",
             data
@@ -54,7 +38,7 @@ router.get("/vehicle/:wheels/:type", async (req, res) => {
 router.post("/vehicle", async (req, res) => {
     try {
 
-        const checkExistingBookings = await Vehicles.findOne({
+        const checkExistingBookings = await Vehicles.findOne({     //will check if vehicle is already booked in that date range
             vehicleType: req.body.vehicleType,
             model: req.body.model,
             'booking.endDate': { $gte: req.body.booking.startDate },
@@ -83,7 +67,7 @@ router.post("/vehicle", async (req, res) => {
                 endDate: req.body.booking.endDate
             }
         };
-        const vehicledata = await Vehicles.create(data);
+        const vehicledata = await Vehicles.create(data);  //if vehicle not booked , then booking will happen.
         res.status(201).json({
             status: "success",
             vehicledata
