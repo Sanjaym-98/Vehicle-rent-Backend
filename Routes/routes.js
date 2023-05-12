@@ -4,65 +4,63 @@ const bodyParser = require('body-parser')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/vehicle/:wheels", async(req,res)=>{
-    try{
-        const data = await Vehicles.find({wheels:req.params.wheels},{vehicleType:1});
+router.get("/vehicle/:wheels", async (req, res) => {
+    try {
+        const data = await Vehicles.find({ wheels: req.params.wheels }, { vehicleType: 1 });
         res.status(200).json({
-            status:"success",
+            status: "success",
             data
         })
-    }catch(e){
+    } catch (e) {
         res.status(404).json({
-            status:"Failed",
-            message:e.message
+            status: "Failed",
+            message: e.message
         })
     }
 })
 
 
-router.delete("/vehicle", async(req,res)=>{
-    try{
+router.delete("/vehicle", async (req, res) => {
+    try {
         const data = await Vehicles.deleteMany();
         res.status(200).json({
-            status:"success",
+            status: "success",
             data
         })
-    }catch(e){
+    } catch (e) {
         res.status(404).json({
-            status:"Failed",
-            message:e.message
+            status: "Failed",
+            message: e.message
         })
     }
 })
 
 
-
-
-router.get("/vehicle/:wheels/:type", async(req,res)=>{
-    try{
-        const data = await Vehicles.find({wheels:req.params.wheels,vehicleType:req.params.type},{model:1});
+router.get("/vehicle/:wheels/:type", async (req, res) => {
+    try {
+        const data = await Vehicles.find({ wheels: req.params.wheels, vehicleType: req.params.type }, { model: 1 });
         res.status(200).json({
-            status:"success",
+            status: "success",
             data
         })
-    }catch(e){
+    } catch (e) {
         res.status(404).json({
-            status:"Failed",
-            message:e.message
+            status: "Failed",
+            message: e.message
         })
     }
 })
 
-router.post("/vehicle", async(req,res)=>{
-    try{
-       
+router.post("/vehicle", async (req, res) => {
+    try {
+
         const checkExistingBookings = await Vehicles.findOne({
             vehicleType: req.body.vehicleType,
             model: req.body.model,
             'booking.endDate': { $gte: req.body.booking.startDate },
             'booking.startDate': { $lte: req.body.booking.endDate },
         });
-        
+
 
         if (checkExistingBookings) {
             res.status(409).json({
@@ -72,9 +70,8 @@ router.post("/vehicle", async(req,res)=>{
             return;
         }
 
-        
-        const data ={
-            name: { 
+        const data = {
+            name: {
                 first: req.body.name.first,
                 last: req.body.name.last
             },
@@ -88,13 +85,13 @@ router.post("/vehicle", async(req,res)=>{
         };
         const vehicledata = await Vehicles.create(data);
         res.status(201).json({
-            status:"success",
+            status: "success",
             vehicledata
         })
-    } catch(e){
+    } catch (e) {
         res.status(501).json({
-            status:"Failed",
-            message:e.message
+            status: "Failed",
+            message: e.message
         })
     }
 })

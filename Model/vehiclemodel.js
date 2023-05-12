@@ -39,8 +39,6 @@ const vehicleSchema = new mongoose.Schema({
 
 const Vehicles = mongoose.model('Vehicles', vehicleSchema);
 
-
-
 Vehicles.countDocuments().then(count => {
   if (count === 0) {
     const initialVehicles = [
